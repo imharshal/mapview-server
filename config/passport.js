@@ -12,7 +12,7 @@ ExtractJwt.fromAuthHeaderWithScheme("jwt");
 
 passport.use(
   new JwtStrategy(opts, async function (jwt_payload, done) {
-    const user = await UserModel.findOne({ _id: jwt_payload.id });
+    const user = await UserModel.findOne({ _id: jwt_payload.user.id });
     if (user) {
       return done(null, user);
     } else {

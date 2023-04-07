@@ -76,9 +76,11 @@ app.post("/login", (req, res) => {
     }
 
     const payload = {
-      username: user.email,
-      id: user._id,
-      name: user.name,
+      user: {
+        username: user.email,
+        id: user._id,
+        name: user.name,
+      },
     };
 
     const token = jwt.sign(payload, process.env.JWT_SECRET, {
@@ -88,11 +90,12 @@ app.post("/login", (req, res) => {
     return res.status(200).send({
       success: true,
       message: "Logged in successfully!",
-      token: "Bearer " + token,
+      token: token,
     });
   });
 });
 
 require("./config/passport");
 
-app.listen(5000, () => console.log("Listening to port 5000"));
+const port = process.env.PORT || 5000;
+app.listen(port, () => console.log(`Listening to port ${port}`));
